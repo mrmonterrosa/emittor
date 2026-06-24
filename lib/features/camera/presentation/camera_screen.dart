@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_uvc_camera/flutter_uvc_camera.dart';
+import 'package:emittor/core/uvc_camera/flutter_uvc_camera.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CameraScreen extends ConsumerStatefulWidget {
@@ -26,16 +26,30 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
   }
 
   Future<void> _checkPermission() async {
-    final status = await Permission.camera.status;
-    if (status.isGranted) {
+    debugPrint('Checking permissions...');
+    final cameraStatus = await Permission.camera.status;
+    final storageStatus = await Permission.storage.status;
+    debugPrint('Camera permission: $cameraStatus, Storage permission: $storageStatus');
+    
+    if (cameraStatus.isGranted && storageStatus.isGranted) {
+      debugPrint('Both permissions granted. Rendering camera view...');
       setState(() {
         _permissionGranted = true;
         _isLoading = false;
       });
     } else {
-      final result = await Permission.camera.request();
+      debugPrint('Permissions not fully granted. Requesting...');
+      final results = await [
+        Permission.camera,
+        Permission.storage,
+      ].request();
+      
+      final cameraResult = results[Permission.camera]?.isGranted == true;
+      final storageResult = results[Permission.storage]?.isGranted == true;
+      debugPrint('Request results -> Camera: $cameraResult, Storage: $storageResult');
+      
       setState(() {
-        _permissionGranted = result.isGranted;
+        _permissionGranted = cameraResult && storageResult;
         _isLoading = false;
       });
     }
