@@ -10,34 +10,21 @@ class CameraScreen extends ConsumerStatefulWidget {
 }
 
 class _CameraScreenState extends ConsumerState<CameraScreen> {
-  UVCCameraController? _cameraController;
-  bool _isInitialized = false;
-  String _statusMessage = 'Presiona Iniciar para conectar la cámara UVC';
+  late UVCCameraController _cameraController;
 
   @override
   void initState() {
     super.initState();
-    _initCamera();
-  }
-
-  Future<void> _initCamera() async {
-    try {
-      _cameraController = UVCCameraController();
-      await _cameraController!.initialize();
-      setState(() {
-        _isInitialized = true;
-        _statusMessage = 'Cámara inicializada correctamente';
-      });
-    } catch (e) {
-      setState(() {
-        _statusMessage = 'Error al inicializar cámara: $e';
-      });
-    }
+    _cameraController = UVCCameraController();
+    _cameraController.msgCallback = (state) {
+      debugPrint('Camera state: $state');
+    };
   }
 
   @override
   void dispose() {
-    _cameraController?.dispose();
+    _cameraController.closeCamera();
+    _cameraController.dispose();
     super.dispose();
   }
 
@@ -51,27 +38,15 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (_isInitialized && _cameraController != null)
-              Expanded(
-                child: UVCCameraView(
-                  controller: _cameraController!,
-                ),
-              )
-            else
-              Expanded(
-                child: Center(
-                  child: Text(
-                    _statusMessage,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: _initCamera,
-                child: const Text('Re-inicializar Cámara'),
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return UVCCameraView(
+                    cameraController: _cameraController,
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                  );
+                },
               ),
             ),
           ],
