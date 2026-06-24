@@ -18,6 +18,14 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(":app")
+    
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "com.android.support.constraint" && requested.name == "constraint-layout") {
+                useTarget("androidx.constraintlayout:constraintlayout:2.1.4")
+            }
+        }
+    }
 }
 
 tasks.register<Delete>("clean") {
