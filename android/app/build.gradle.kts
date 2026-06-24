@@ -32,6 +32,10 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 kotlin {
@@ -42,4 +46,12 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation("com.github.chenyeju295.AndroidUSBCamera:libausbc:3.3.6")
+    implementation("com.github.chenyeju295.AndroidUSBCamera:libuvc:3.3.6")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.code.gson:gson:2.8.8")
 }
