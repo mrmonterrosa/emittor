@@ -28,28 +28,21 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
   Future<void> _checkPermission() async {
     debugPrint('Checking permissions...');
     final cameraStatus = await Permission.camera.status;
-    final storageStatus = await Permission.storage.status;
-    debugPrint('Camera permission: $cameraStatus, Storage permission: $storageStatus');
+    debugPrint('Camera permission: $cameraStatus');
     
-    if (cameraStatus.isGranted && storageStatus.isGranted) {
-      debugPrint('Both permissions granted. Rendering camera view...');
+    if (cameraStatus.isGranted) {
+      debugPrint('Camera permission granted. Rendering camera view...');
       setState(() {
         _permissionGranted = true;
         _isLoading = false;
       });
     } else {
-      debugPrint('Permissions not fully granted. Requesting...');
-      final results = await [
-        Permission.camera,
-        Permission.storage,
-      ].request();
-      
-      final cameraResult = results[Permission.camera]?.isGranted == true;
-      final storageResult = results[Permission.storage]?.isGranted == true;
-      debugPrint('Request results -> Camera: $cameraResult, Storage: $storageResult');
+      debugPrint('Camera permission not granted. Requesting...');
+      final result = await Permission.camera.request();
+      debugPrint('Request result -> Camera: ${result.isGranted}');
       
       setState(() {
-        _permissionGranted = cameraResult && storageResult;
+        _permissionGranted = result.isGranted;
         _isLoading = false;
       });
     }
