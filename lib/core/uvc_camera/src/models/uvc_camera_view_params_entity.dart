@@ -19,11 +19,19 @@ class UVCCameraViewParamsEntity {
   ///  DEFAULT_BANDWIDTH = 1
   final double? bandwidthFactor;
 
+  /// Custom preview width (e.g. 1280 or 1920)
+  final int? previewWidth;
+
+  /// Custom preview height (e.g. 720 or 1080)
+  final int? previewHeight;
+
   const UVCCameraViewParamsEntity({
     this.minFps = 10,
     this.maxFps = 60,
     this.bandwidthFactor = 1.0,
     this.frameFormat = 1,
+    this.previewWidth = 1280, // Default to 720p for better quality on TV
+    this.previewHeight = 720,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,7 +39,9 @@ class UVCCameraViewParamsEntity {
       "minFps": minFps,
       "maxFps": maxFps,
       "frameFormat": frameFormat,
-      "bandwidthFactor": bandwidthFactor
+      "bandwidthFactor": bandwidthFactor,
+      "previewWidth": previewWidth,
+      "previewHeight": previewHeight,
     };
   }
 }

@@ -77,6 +77,10 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
                                 cameraController: _cameraController,
                                 width: constraints.maxWidth,
                                 height: constraints.maxHeight,
+                                params: const UVCCameraViewParamsEntity(
+                                  previewWidth: 1280, // 720p HD
+                                  previewHeight: 720,
+                                ),
                               ),
                             );
                           },
