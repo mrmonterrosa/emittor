@@ -71,10 +71,13 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
                       Expanded(
                         child: LayoutBuilder(
                           builder: (context, constraints) {
-                            return UVCCameraView(
-                              cameraController: _cameraController,
-                              width: constraints.maxWidth,
-                              height: constraints.maxHeight,
+                            return Transform.scale(
+                              scaleX: -1, // Espejar horizontalmente
+                              child: UVCCameraView(
+                                cameraController: _cameraController,
+                                width: constraints.maxWidth,
+                                height: constraints.maxHeight,
+                              ),
                             );
                           },
                         ),
