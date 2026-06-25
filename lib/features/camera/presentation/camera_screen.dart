@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:emittor/core/uvc_camera/flutter_uvc_camera.dart';
+import 'package:camera_usb/camera_usb.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CameraScreen extends ConsumerStatefulWidget {

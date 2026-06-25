@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_riverpod: ^3.3.2
   permission_handler: ^12.0.3
+  camera_usb:
+    path: ../camera_usb
 
 dev_dependencies:
   flutter_test:
