@@ -23,7 +23,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
-import com.chenyeju.databinding.ActivityMainBinding
+import com.mrmonterrosa.emittor.emittor.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import com.jiangdg.ausbc.MultiCameraClient
 import com.jiangdg.ausbc.callback.ICameraStateCallBack
